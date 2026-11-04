@@ -1,35 +1,66 @@
-# co rem
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
+    <img src="assets/banner-light.png" alt="co rem: your next conversation starts with context. A local notebook of your people, projects and decisions, with sources." width="100%">
+  </picture>
+</p>
 
-**Your mail and coding sessions, turned into a notebook your AI agents can read.**
-
-co rem reads the last 180 days of your Gmail or Outlook and your local Codex and Claude Code sessions. It writes one cited Markdown page for:
-- each person you work with;
-- each project you code in;
-- each organisation you deal with;
-- each skill you have installed.
-
-The pages stay on your machine. Every sentence links back to the message it came from.
-
-Your agents then use those pages, through a skill, before they start the next task.
+<h2 align="center">Your next conversation starts with context.<br>People, projects and decisions, every line with its source.<br>A local notebook. Built only on your yes.</h2>
 
 <p align="center">
-  <img src="assets/person-page-desktop.png" width="68%" alt="A person page in co rem: where you stand, contact details, activity and a cited history">
-  <img src="assets/person-page-phone.png" width="24%" alt="The same page on a phone">
+  <a href="#install"><img alt="npx skills add openonion/corem" src="https://img.shields.io/badge/npx_skills_add-openonion%2Fcorem-0b8a3c?style=flat-square"></a>
+  <a href="LICENSE"><img alt="Apache-2.0" src="https://img.shields.io/badge/Apache--2.0-0d1b14?style=flat-square"></a>
+  <a href="https://discord.gg/4xfD9k8AUF"><img alt="Discord" src="https://img.shields.io/badge/Discord-0b8a3c?style=flat-square"></a>
 </p>
-<p align="center"><sub>An invented example notebook. Your own pages are written from your own mail.</sub></p>
 
-## Start in three commands
+<p align="center">
+  <img src="assets/co-rem.webp" alt="In a terminal: co init offers a mailbox, shows which sources it will read and asks once, installs upkeep, prints an estimate and asks before spending, then writes the first project page from three coding sessions. In Codex: ask who Mara Ostrowski is and what you owe her; the agent runs co rem show and answers from her page, with the message numbers it came from." width="100%">
+  <br><sub><a href="assets/co-rem.mp4">Watch it</a> · a real terminal and a real Codex session, 1.9.3rc39 · the person, company and project are invented · the setup part plays at about twice real speed</sub>
+</p>
+
+<p align="center"><sub>SET UP IN CODEX OR CLAUDE CODE · READ FROM ANY AGENT THAT RUNS A SHELL</sub></p>
+
+## Install
 
 ```bash
-pip install --upgrade connectonion
-co auth google          # or: co auth microsoft
-co rem init             # map 180 days, then write your pages
-co rem open             # read them in your browser
+# the skill
+npx skills add openonion/corem
+
+# the co CLI it runs (1.9.3rc39 or later; a preview)
+pip install --upgrade --pre connectonion
 ```
 
-`init` prints your own page within the first minutes, then writes the rest 16 pages at a time on your own Claude Code or Codex plan. A full first run over a busy mailbox takes about two hours, and every page is readable as soon as it lands.
+Then tell your agent: **"Set up my memory."** It runs `co init`, which asks you once before reading anything.
 
-## What you get
+<p align="center">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/features/1-dark.png"><img src="assets/features/1-light.png" alt="1. One command sets it up: co init connects your mailbox, asks once, and builds your notebook" width="100%"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/features/2-dark.png"><img src="assets/features/2-light.png" alt="2. Every sentence has a source: each line on a page links to the message it came from" width="100%"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/features/3-dark.png"><img src="assets/features/3-light.png" alt="3. Read only what you approve: sources, model, schedule and daily cap shown first; nothing is read before your yes" width="100%"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="assets/features/4-dark.png"><img src="assets/features/4-light.png" alt="4. It keeps itself current: Codex updates the pages on a schedule you saw and can stop" width="100%"></picture>
+</p>
+
+## More
+
+<details>
+<summary><b>From the terminal</b></summary>
+
+```bash
+co init                                  # identity, mailbox, one yes, upkeep, first pages
+co rem show "Mara Ostrowski"             # where you stand with one person, with sources
+co rem search "data-sharing addendum"    # across every page
+co rem open                              # read the notebook in your browser
+co rem status                            # last run, next run, what is waiting on you
+co rem stop                              # pause upkeep; co rem start resumes it
+```
+</details>
+
+<details>
+<summary><b>What you get</b></summary>
+
+<p align="center">
+  <img src="assets/person-page-desktop.png" width="68%" alt="A person page: where you stand, contact details, open threads and a dated, cited history">
+  <img src="assets/person-page-phone.png" width="24%" alt="The same page on a phone">
+</p>
 
 | Page | What it answers |
 |---|---|
@@ -39,73 +70,48 @@ co rem open             # read them in your browser
 | **Organisations** | Who you know there, the terms you agreed, what is still open |
 | **Skills** | What each installed skill does, how often it ran, how reliable it was |
 
-Each page has an **Open threads** section that says who owes whom, a dated **History**, and **Sources** you can open as the original message.
+Every line ends in a numbered source. Pages are Markdown files under `~/.co/rem`; read them with anything.
+</details>
 
-## The skills
+<details>
+<summary><b>What it reads, and when</b></summary>
 
-co rem is built from plain `SKILL.md` files, the same format Claude Code and Codex load. Two of them are for you.
+`co init` shows the list before asking: your Gmail or Outlook if you connected one, your local Codex and Claude Code sessions, the model it will use (your own Codex plan), the schedule and the daily cap on model calls. Nothing is read until you answer yes. Afterwards the same list is in `co rem sources`; `co rem sources remove gmail` takes one out.
 
-### `rem-use`: let your agent read your notebook
+The first run maps 180 days and writes your own page first, then the people and projects you were most recently in touch with. After that a Codex Scheduled task (or launchd) runs the updates at times you saw, reading only what arrived since the last run.
+</details>
 
-Copy it from this repository into your agent's skills folder:
+<details>
+<summary><b>Where the data is</b></summary>
 
-```bash
-git clone https://github.com/openonion/corem
-cp -r corem/skills/rem-use ~/.claude/skills/     # Claude Code
-cp -r corem/skills/rem-use ~/.codex/skills/      # Codex
-```
+- **The notebook stays on your machine**, in `~/.co/rem`, as Markdown files. Nothing is uploaded to ConnectOnion.
+- **Model calls go to your own Codex or Claude Code plan**, the way your agent's own turns do. co rem has no model key of its own.
+- **Mail bodies are cached locally** so pages can cite them; `co rem stop` pauses upkeep and `co rem sources` shows what is subscribed.
+- **Other people's names are masked** when a [handoff](https://github.com/openonion/handoff) leaves your machine.
+</details>
 
-Then ask in plain words:
+<details>
+<summary><b>How long, and whose quota?</b></summary>
 
-> "What did I promise Priya last week?"
-> "Who at Fernhill have I spoken to, and what's still open?"
-> "Which of my skills have actually been used this month?"
+The estimate `co init` prints before the first page is the honest number for your mailbox: pages, tokens, minutes. A quiet inbox is twenty minutes; a busy one is an hour or two. It runs on your Codex plan and stops at a quota floor so your own work keeps its share; `co rem status` shows today's spend.
+</details>
 
-The agent answers from your pages with these commands:
+<details>
+<summary><b>Which agents and systems work?</b></summary>
 
-```bash
-co rem search "pilot"                    # find records by text
-co rem show people/priya-natarajan.md    # read one page
-co rem list people                       # browse a category
-```
+Set up in Codex or Claude Code on macOS, Linux or Windows. Scheduled upkeep uses a Codex Scheduled task where the Codex app is installed, and launchd on macOS otherwise. Any agent that can run a shell can read the notebook through `co rem show` and `co rem search`; the skill installs into any agent that `npx skills` supports.
+</details>
 
-It is read-only. Finding a task in the notebook doesn't give the agent permission to do it.
+<details>
+<summary><b>What if setup stops halfway?</b></summary>
 
-### Skill pages: know which skills earn their place
+Run `co init` again. It keeps what exists, says REM is already initialised, and `co rem init` continues the first run where it stopped. Nothing is rebuilt from scratch and nothing is deleted.
+</details>
 
-co rem writes a page for every skill you have installed. Each page says:
-- what the skill does;
-- when you last used it;
-- how its runs went, from the run records it finds.
+<details>
+<summary><b>Copy the skill by hand</b></summary>
 
-When you have a hundred skills, this is how you find the five that matter.
+The skill is one file: [`skills/co-rem/SKILL.md`](skills/co-rem/SKILL.md). Put it in `~/.codex/skills/co-rem/` or `~/.claude/skills/co-rem/`, or paste it into your agent's instructions.
+</details>
 
-### The investigation skills
-
-The pages themselves are written by skills you can read and change:
-- `rem-investigate-person`, `rem-investigate-project`, `rem-investigate-org` and `rem-investigate-skill` investigate one subject each;
-- `rem-page-person`, `rem-page-project`, `rem-page-org` and `rem-page-skill` set what each page must contain;
-- `rem-abstract` lifts settled decisions and recurring reasons out of the pages.
-
-Investigations follow leads like a journalist: each round reads one part of the evidence, edits the page in place, and deletes what newer mail supersedes.
-
-## Private by default
-
-- The notebook is a folder on your machine: `~/.co/rem`.
-- Saved mail bodies stay in its owner-only `.state/` folder and never appear on a page.
-- A model reads them only through the login you choose (your Claude Code or Codex plan). It does not use OpenOnion credits.
-- `co rem sources` shows what is read; `co rem sources remove <source>` stops it.
-
-## Keep it current
-
-```bash
-co rem start            # approve sources and a daily schedule
-co rem sync             # pull in the latest sessions now
-co rem status           # coverage, last run, limits
-```
-
-## Learn more
-
-- Guide: [docs.connectonion.com](https://docs.connectonion.com)
-- Code: [openonion/connectonion](https://github.com/openonion/connectonion) (co rem lives in `connectonion/rem/`)
-- Community: [Discord](https://discord.gg/4xfD9k8AUF)
+<p align="center"><sub>Built with <a href="https://github.com/openonion/connectonion">ConnectOnion</a> · <a href="https://docs.connectonion.com">docs</a> · <a href="https://discord.gg/4xfD9k8AUF">Discord</a></sub></p>
