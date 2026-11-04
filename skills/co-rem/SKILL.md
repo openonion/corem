@@ -20,7 +20,7 @@ just the exit code. A command can succeed and still report a skipped step.
 
 ## 1. Install or update ConnectOnion
 
-co rem needs **connectonion 1.9.3rc39 or later** (a preview). Find the
+co rem needs **connectonion 1.9.3rc41 or later** (a preview). Find the
 interpreter (`python3 --version`; on Windows `py -3 --version`) and the current
 version (`co --version`), then update through whatever installed it:
 

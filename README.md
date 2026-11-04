@@ -26,7 +26,7 @@
 # the skill
 npx skills add openonion/corem
 
-# the co CLI it runs (1.9.3rc39 or later; a preview)
+# the co CLI it runs (1.9.3rc41 or later; a preview)
 pip install --upgrade --pre connectonion
 ```
 
