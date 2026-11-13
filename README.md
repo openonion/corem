@@ -123,7 +123,7 @@ model processing and background work and obtains approval before running it.
 <summary><b>From the terminal</b></summary>
 
 ```bash
-co init                                  # identity, mailbox, one yes, upkeep, first pages
+co init                                  # initialize REM, read sources and install upkeep
 co rem show "Mara Ostrowski"             # where you stand with one person, with sources
 co rem search "data-sharing addendum"    # across every page
 co rem open                              # read the notebook in your browser
