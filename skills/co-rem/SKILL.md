@@ -1,20 +1,21 @@
 ---
 name: co-rem
-description: Set up co rem, a local notebook built from the user's mail and coding sessions, and read it before starting work. Use when the user asks to set up memory, co rem, "remember my contacts and projects", or asks who someone is, where a project stands, or what was agreed with a company. Setup reads private sources only after the user's own yes.
+description: Set up REM, a local notebook of the user's people, projects and decisions, or answer questions from an existing notebook with sources. Use for "set up my memory", "remember my contacts and projects", "who is this person", or "where does this project stand". Explain source access and scheduling before starting setup.
 ---
 
 # co rem
 
-co rem turns the user's Gmail or Outlook and their Codex and Claude Code sessions
-into one cited Markdown page per person, project, organisation and skill, kept
-on their machine and updated on a schedule they approved.
+REM builds cited Markdown pages from the user's mail and coding sessions.
+The ConnectOnion CLI runs locally and uses the configured coding agent or model
+service to investigate sources. Pages stay on the user's computer.
 
 Read every command's output, including its warnings and its `Next:` line, not
 just the exit code. A command can succeed and still report a skipped step.
 
 | Situation | Go to |
 |---|---|
-| No notebook yet, or the user asks to set up memory | 1 Install → 2 `co init` |
+| Install the plugin or skill | Install only, then explain how to start setup |
+| No notebook yet, or the user asks to set up memory | 1 Install → 2 Set up memory |
 | A notebook exists and the user asks about a person, project or company | 3 Use |
 | Something looks wrong (stale pages, upkeep not running) | 4 Check |
 
@@ -30,44 +31,52 @@ pip install --upgrade --pre connectonion
 uv tool upgrade connectonion --prerelease allow
 ```
 
-Compare versions with PEP 440 ordering, not alphabetically. In Codex, run
-installs, logins and `co init` outside the sandbox (escalated) from the first
-try: they need the network and the user's real home directory.
+Compare versions with PEP 440 ordering, not alphabetically. Reuse an existing
+compatible installation. Follow the host's permission flow when a command needs
+network or home-directory access. Report a denied operation and the required
+user action. Installation alone does not authorize source reading or setup.
 
-## 2. Set it up: one command
+## 2. Set up memory
 
 ```bash
 co init
 ```
 
-Run it in the user's terminal, not in the background: it asks questions only the
-user can answer. In order, it:
+Before running initialization, read `co init --help`, `co rem init --help`,
+and `co rem config --help`. Behavior varies between CLI releases.
 
-1. writes the local identity and links the bundled skills (no questions);
-2. offers `co auth google` or `co auth microsoft` when no mailbox is connected
-   (the user may skip; without mail the notebook is built from coding sessions);
-3. shows exactly which sources will be read, with which model, on which
-   schedule and under which daily cap, and asks once:
-   `Read these sources with this model and schedule? [y/N]`.
-   **Only the user answers this.** Never type `y` for them, and never pass
-   `--yes` to grant it. If they decline, setup ends cleanly and upkeep stays off;
-4. installs upkeep (a Codex Scheduled task, or launchd on macOS without Codex)
-   and names which one;
-5. maps the last 180 days and prints an estimate (pages, tokens, minutes), then
-   asks `Build the first map now? [Y/n]`. Enter builds; `n` keeps upkeep and
-   prints `co rem init` for later.
+In current releases, `co init` immediately grants access to local Codex and
+Claude Code sessions and all connected Google/Microsoft mailboxes, starts the
+first build, and installs upkeep. Mailboxes connected later may join automatically.
+The CLI's cost estimate is informational and may not wait for an answer.
+Do not depend on a terminal confirmation prompt.
 
-Then the first pages arrive one by one. The user's own page comes first, within
-minutes; a busy mailbox takes an hour or two in all, and every page is readable
-as soon as it lands. Ctrl-C keeps what was written.
+Explain the sources that will be read, the configured runner/model, expected
+quota use, the schedule, and any automatic task execution enabled by the CLI.
+Ask the user to approve those effects unless their current instruction already
+explicitly approves them. If they decline, stop. A request to install only is
+not approval for setup.
 
-Re-running `co init` on a machine that already has a notebook changes nothing
-and says so. `co init --no-rem` skips this step.
+For a narrower request, use the installed CLI's source and scheduling controls
+before any reading. `co rem init --no-start` leaves a new background schedule
+off, but does not stop an existing schedule. `co init --no-rem` skips REM while
+preparing the CLI. Explain an unsupported restriction instead of running a
+command that reads more than the user approved.
+
+After approval, run the appropriate setup command, normally `co init`, in the
+foreground. Let the user complete account authorization in their browser.
+On versions that ask terminal questions, let the user answer source-consent
+questions themselves. Report written pages, skipped stages, errors, and the
+actual next step from the output. An interrupted build may keep completed pages.
+
+Explain `co rem status` and `co rem stop` after setup. Read the installed help
+before describing how to resume or rebuild an existing notebook.
 
 ## 3. Use the notebook
 
-Before starting a task that involves a person, a project or a company, read
-their page first. Pages are plain Markdown with numbered sources.
+For a task that involves a person, project or company, read the relevant existing
+page or search results. A missing notebook is a reason to offer setup, not to
+start reading mail or sessions automatically. Pages have numbered sources.
 
 ```bash
 co rem show "Mara Ostrowski"          # one person's page: where you stand, open threads, history
@@ -89,5 +98,8 @@ co rem sync        # update now from the latest mail and sessions
 co rem stop        # pause upkeep; co rem start resumes it
 ```
 
-If `status` shows no scheduled run, `co rem start` reinstalls upkeep after
-showing the same consent summary. `co rem --help` lists everything else.
+`sync` reads subscribed sources and can make model calls. `stop` pauses future
+scheduled updates and keeps existing pages. Before enabling upkeep with
+`co rem start`, explain its current effects and follow the same approval rule
+as setup. Source changes affect future reading; existing pages may remain.
+`co rem --help` lists the installed version's other commands.

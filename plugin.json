@@ -1,0 +1,39 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "rem",
+  "version": "0.1.0",
+  "description": "A local notebook of your people, projects and decisions, with sources. Set up REM and read its pages from Codex or Claude Code.",
+  "author": {
+    "name": "ConnectOnion",
+    "url": "https://docs.connectonion.com"
+  },
+  "homepage": "https://github.com/openonion/corem",
+  "repository": "https://github.com/openonion/corem",
+  "license": "Apache-2.0",
+  "keywords": ["memory", "people", "projects", "local", "connectonion"],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "onboardingSkill": "./skills/co-rem/SKILL.md",
+      "interface": {
+        "displayName": "REM",
+        "shortDescription": "People, projects and context",
+        "longDescription": "Start your next conversation with context. REM builds a local notebook of people, projects and decisions from authorized mail and coding sessions, with numbered sources. Recall who someone is, where a project stands, or what you agreed. Requires the ConnectOnion CLI and local execution. The setup skill explains source access, model processing and background work before initialization. CLI setup can automatically include connected mailboxes and local sessions, and newly connected mailboxes may join later. Notebook pages stay on your computer; selected source material is processed by your configured coding-agent or model service.",
+        "developerName": "ConnectOnion",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "websiteURL": "https://github.com/openonion/corem",
+        "supportURL": "https://github.com/openonion/corem/issues",
+        "privacyPolicyURL": "https://github.com/openonion/corem/blob/main/PRIVACY.md",
+        "defaultPrompt": [
+          "Set up my memory with REM.",
+          "Use REM to find where my current project stands.",
+          "Check whether my REM notebook is up to date."
+        ],
+        "brandColor": "#0B6B43",
+        "composerIcon": "./assets/icon.svg",
+        "logo": "./assets/icon.svg"
+      }
+    }
+  }
+}

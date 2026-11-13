@@ -1,0 +1,14 @@
+{
+  "name": "rem",
+  "version": "0.1.0",
+  "description": "A local notebook of your people, projects and decisions, with sources. Set up REM and read its pages from Claude Code.",
+  "author": {
+    "name": "ConnectOnion",
+    "url": "https://docs.connectonion.com"
+  },
+  "homepage": "https://github.com/openonion/corem",
+  "repository": "https://github.com/openonion/corem",
+  "license": "Apache-2.0",
+  "keywords": ["memory", "people", "projects", "local", "connectonion"],
+  "skills": "./skills/"
+}

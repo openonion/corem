@@ -1,0 +1,17 @@
+{
+  "name": "rem-marketplace",
+  "interface": {
+    "displayName": "REM by ConnectOnion"
+  },
+  "plugins": [
+    {
+      "name": "rem",
+      "source": { "source": "local", "path": "./" },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

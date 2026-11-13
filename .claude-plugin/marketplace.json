@@ -1,0 +1,16 @@
+{
+  "name": "rem-marketplace",
+  "owner": { "name": "ConnectOnion" },
+  "metadata": {
+    "description": "REM by ConnectOnion: a local notebook of your people, projects and decisions."
+  },
+  "plugins": [
+    {
+      "name": "rem",
+      "source": "./",
+      "description": "A local notebook of your people, projects and decisions, with sources.",
+      "version": "0.1.0",
+      "category": "productivity"
+    }
+  ]
+}
